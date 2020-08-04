@@ -1,0 +1,2 @@
+(this["webpackJsonpsnake-react"]=this["webpackJsonpsnake-react"]||[]).push([[0],{3:function(e,n,t){e.exports=t(8)},8:function(e,n,t){"use strict";t.r(n);var r=t(0),a=t.n(r),c=t(2),l=function(){return a.a.createElement(a.a.Fragment,null,a.a.createElement("h1",null,"Hello world"))};t.n(c).a.render(a.a.createElement(l,null),document.querySelector("#root"))}},[[3,1,2]]]);
+//# sourceMappingURL=main.38a9c01c.chunk.js.map
