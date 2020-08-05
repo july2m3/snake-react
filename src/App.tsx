@@ -5,17 +5,31 @@ import "./main.scss";
 import Map from "./components/map";
 
 // import constants
-const foodBlock = 1;
-const playerBlock = 2;
+import { FOOD, PLAYER } from "./components/constants";
 
 const App: React.SFC = () => {
   const [grid, updateGrid] = useState<number[][] | null | undefined>();
+  const [player, updatePlayer] = useState<Object | null>();
 
-  //setup
+  const putPlayerInGrid = () => {
+    const tempGrid = [grid];
+    console.log(tempGrid);
+  };
+
+  // setup
   useEffect(() => {
     // create 16 x 16 2d array filled with 0s
     const tempGrid = new Array(16).fill(0).map(() => new Array(16).fill(0));
 
+    const tempPlayer = {
+      positionRow: 8,
+      positionColumn: 8,
+      size: 1,
+    };
+
+    tempGrid[8][8] = PLAYER;
+
+    updatePlayer(tempPlayer);
     updateGrid(tempGrid);
   }, []);
 

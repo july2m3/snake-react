@@ -1,6 +1,8 @@
 import React from "react";
 import { v4 as uuidV4 } from "uuid";
 
+import { FOOD, PLAYER } from "../constants";
+
 interface mapProps {
   grid: number[][];
 }
@@ -11,6 +13,13 @@ const Map: React.SFC<mapProps> = (props: mapProps) => {
   const renderedGrid = new Array();
 
   const getClassName = (j: number, i: number) => {
+    // check for worm, or apple
+    if (grid[i][j] === PLAYER) {
+      return "player";
+    } else if (grid[i][j] === FOOD) {
+      return "food";
+    }
+
     if (j % 2 === 0) {
       return i % 2 === 0 ? "box-one" : "box-two";
     } else {
