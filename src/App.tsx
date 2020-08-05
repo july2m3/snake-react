@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
+
+import "./main.scss";
+
+import Map from "./components/map";
+
 // import constants
+const foodBlock = 1;
+const playerBlock = 2;
 
 const App: React.SFC = () => {
   const [grid, updateGrid] = useState<number[][] | null>();
@@ -14,7 +21,7 @@ const App: React.SFC = () => {
 
   return (
     <>
-      <h1>Hello world</h1>
+      <Map grid={grid} />
     </>
   );
 };
