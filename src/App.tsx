@@ -9,7 +9,7 @@ const foodBlock = 1;
 const playerBlock = 2;
 
 const App: React.SFC = () => {
-  const [grid, updateGrid] = useState<number[][] | null>();
+  const [grid, updateGrid] = useState<number[][] | null | undefined>();
 
   //setup
   useEffect(() => {
@@ -19,11 +19,7 @@ const App: React.SFC = () => {
     updateGrid(tempGrid);
   }, []);
 
-  return (
-    <>
-      <Map grid={grid} />
-    </>
-  );
+  return <>{grid && <Map grid={grid} />}</>;
 };
 
 export default App;
