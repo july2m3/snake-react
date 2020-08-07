@@ -22,10 +22,17 @@ interface Apple {
   column: number;
   row: number;
 }
+interface Player {
+  coordinates: [{ row: number; col: number }];
+  head: {
+    row: number;
+    col: number;
+  };
+}
 
 const App: React.SFC = () => {
   const [grid, updateGrid] = useState<number[][] | null | undefined>();
-  const [player, updatePlayer] = useState<Object | null>();
+  const [player, updatePlayer] = useState<Player | null>();
   const [apple, updateApple] = useState<Apple | null>();
 
   function movePlayer(upOrDown = 0, leftOrRight = 0) {
@@ -69,6 +76,7 @@ const App: React.SFC = () => {
     }
 
     const tempGrid = new Array(16).fill(0).map(() => new Array(16).fill(0));
+    tempGrid![player!.head.row][player!.head.col] = PLAYER;
     tempGrid![apple!.row][apple!.column] = FOOD;
     updateGrid(tempGrid);
   }
@@ -77,8 +85,8 @@ const App: React.SFC = () => {
   useEffect(() => {
     const tempGrid = new Array(16).fill(0).map(() => new Array(16).fill(0));
 
-    const tempPlayer = {
-      coorindates: [{ row: 8, col: 8 }],
+    const tempPlayer: Player = {
+      coordinates: [{ row: 8, col: 8 }],
       head: { row: 8, col: 8 },
     };
 
