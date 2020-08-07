@@ -38,11 +38,7 @@ const Map: React.SFC<mapProps> = (props: mapProps) => {
     }
   }
 
-  return (
-    <div className="map" key={grid.toString()}>
-      {renderedGrid}
-    </div>
-  );
+  return <div className="map">{renderedGrid}</div>;
 };
 
 export default Map;

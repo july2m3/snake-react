@@ -25,9 +25,6 @@ interface Apple {
 
 const App: React.SFC = () => {
   const [grid, updateGrid] = useState<number[][] | null | undefined>();
-  const [emptyGrid, updateEmptyGrid] = useState<
-    number[][] | null | undefined
-  >();
   const [player, updatePlayer] = useState<Object | null>();
   const [apple, updateApple] = useState<Apple | null>();
 
@@ -67,18 +64,13 @@ const App: React.SFC = () => {
 
   // update Grid by putting in current player position and apple position
   function updateGameBoard() {
-    if (
-      emptyGrid === undefined ||
-      player === undefined ||
-      apple === undefined
-    ) {
+    if (grid === undefined || player === undefined || apple === undefined) {
       return;
     }
 
-    const tempGrid = emptyGrid;
-    tempGrid![apple!.row][apple!.column] = PLAYER;
-    updateGrid(grid);
-    console.log(tempGrid, { apple });
+    const tempGrid = new Array(16).fill(0).map(() => new Array(16).fill(0));
+    tempGrid![apple!.row][apple!.column] = FOOD;
+    updateGrid(tempGrid);
   }
 
   // setup grid, player and apple, and keyboard
@@ -90,7 +82,6 @@ const App: React.SFC = () => {
       head: { row: 8, col: 8 },
     };
 
-    updateEmptyGrid(tempGrid);
     updateGrid(tempGrid);
     updatePlayer(tempPlayer);
     updateApplePosition();
