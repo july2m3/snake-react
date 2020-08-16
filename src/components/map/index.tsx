@@ -8,12 +8,30 @@ import { v4 as uuidV4 } from 'uuid';
 
 import { FOOD, PLAYER } from '../constants';
 
+interface Apple {
+  column: number;
+  row: number;
+}
+interface Player {
+  coordinates: [{ row: number; col: number }];
+  head: {
+    row: number;
+    col: number;
+  };
+}
+
 interface mapProps {
   grid: number[][];
+  player: Player | null | undefined;
+  food: Apple | null | undefined;
 }
 
 const Map: React.SFC<mapProps> = (props: mapProps) => {
-  const { grid } = props;
+  const { grid, player, food } = props;
+
+  // console.log(player!.head.row);
+  console.log('redrawing map1');
+  // console.log({ player, food });
 
   const renderedGrid = [];
 
@@ -35,10 +53,15 @@ const Map: React.SFC<mapProps> = (props: mapProps) => {
     for (let i = 0; i < grid.length; i++) {
       const className = getClassName(j, i);
       renderedGrid.push(<div className={className} key={uuidV4()} />);
+      // renderedGrid.push(<div className={className} key={props.toString()} />);
     }
   }
 
-  return <div className="map">{renderedGrid}</div>;
+  return (
+    <div className="map" key={props.toString()}>
+      {renderedGrid}
+    </div>
+  );
 };
 
 export default Map;

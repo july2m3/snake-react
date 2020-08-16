@@ -34,20 +34,40 @@ const App: React.SFC = () => {
   const [grid, updateGrid] = useState<number[][] | null | undefined>();
   const [player, updatePlayer] = useState<Player | null>();
   const [apple, updateApple] = useState<Apple | null>();
+  const [count, setCount] = useState<number>(0);
 
-  function movePlayer(upOrDown = 0, leftOrRight = 0) {
-    // const tempGrid = [grid];
-    console.log('moving snake', { upOrDown, leftOrRight });
-  }
+  // setup grid, player and apple, and keyboard
+  useEffect(() => {
+    const tempGrid = new Array(16).fill(0).map(() => new Array(16).fill(0));
+    const tempPlayer: Player = {
+      coordinates: [{ row: 8, col: 8 }],
+      head: { row: 8, col: 8 },
+    };
+    const tempApple = getNewApplePosition();
+
+    updateApple(tempApple);
+    updateGrid(tempGrid);
+    updatePlayer(tempPlayer);
+  }, []);
+
+  //  update game board
+  useEffect(() => {
+    console.log('updatring ');
+    if (grid === undefined || player === undefined || apple === undefined) {
+      return;
+    }
+
+    const tempGrid = new Array(16).fill(0).map(() => new Array(16).fill(0));
+    tempGrid![player!.head.row][player!.head.col] = PLAYER;
+    tempGrid![apple!.row][apple!.column] = FOOD;
+
+    updateGrid(tempGrid);
+  }, [player, apple]);
 
   function getNewApplePosition() {
     const row = Math.floor(Math.random() * 16);
     const column = Math.floor(Math.random() * 16);
     return { row, column };
-  }
-
-  function updateApplePosition() {
-    updateApple(getNewApplePosition());
   }
 
   function handleKeyDownEvent(event: any) {
@@ -69,38 +89,37 @@ const App: React.SFC = () => {
     }
   }
 
-  // update Grid by putting in current player position and apple position
-  function updateGameBoard() {
-    if (grid === undefined || player === undefined || apple === undefined) {
+  const movePlayer = (upOrDown = 0, leftOrRight = 0) => {
+    console.log(player);
+    if (player === undefined) {
+      console.log('returning, no player to move');
       return;
     }
+    // console.log('here');
+    const tempPlayer = player;
+    // console.log(tempPlayer!.head.row, upOrDown);
+    tempPlayer!.head.row += upOrDown;
+    tempPlayer!.head.col += leftOrRight;
+    // tempPlayer!.head.row = 0;
 
+    updatePlayer(tempPlayer);
     const tempGrid = new Array(16).fill(0).map(() => new Array(16).fill(0));
     tempGrid![player!.head.row][player!.head.col] = PLAYER;
     tempGrid![apple!.row][apple!.column] = FOOD;
-    updateGrid(tempGrid);
-  }
-
-  // setup grid, player and apple, and keyboard
-  useEffect(() => {
-    const tempGrid = new Array(16).fill(0).map(() => new Array(16).fill(0));
-
-    const tempPlayer: Player = {
-      coordinates: [{ row: 8, col: 8 }],
-      head: { row: 8, col: 8 },
-    };
 
     updateGrid(tempGrid);
-    updatePlayer(tempPlayer);
-    updateApplePosition();
-    document.addEventListener('keydown', handleKeyDownEvent);
-  }, []);
+  };
 
-  useEffect(() => {
-    updateGameBoard();
-  }, [player, apple]);
-
-  return <>{grid && <Map grid={grid} />}</>;
+  return (
+    <div
+      onClick={() => {
+        console.log('clicked');
+        movePlayer(-1, 0);
+      }}
+    >
+      {grid && <Map grid={grid} player={player} food={apple} />}
+    </div>
+  );
 };
 
 export default App;
